@@ -772,8 +772,17 @@ public class BattleShips extends JPanel implements ActionListener, KeyListener, 
         if (GameManager.getGameState() == GameState.GAME_OVER && e.getKeyCode() == KeyEvent.VK_ENTER) {
             playerWon = false;
 
+            SetTurns.setTurnState(Turns.PLAYER_TURN);
+            turnState = "Player's turn";
+
+            if (aiTimer != null && aiTimer.isRunning()) {
+                aiTimer.stop();
+            }
+
             clearShipsBoard();
             generateShipsBoard();
+            resetPowerUps();
+            startGame();
 
             GameManager.setGameState(GameState.GAME_RUNNING);
         }
@@ -1020,4 +1029,11 @@ public class BattleShips extends JPanel implements ActionListener, KeyListener, 
 
         protected abstract void applyEffect(HashMap<String, GameSquare> squares, GameSquare square);
     }
+
+    public void resetPowerUps() {
+        for (PowerUp powerUp: PowerUp.values()) {
+            powerUp.usagesRemaining = powerUp.stats.maxUses();
+        }
+    }
+
 }
