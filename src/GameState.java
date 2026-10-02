@@ -1,0 +1,3 @@
+public enum GameState {
+    START_MENU, GAME_RUNNING, GAME_PAUSED, GAME_OVER
+}
